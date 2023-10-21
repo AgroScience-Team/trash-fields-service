@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  postgres:
+    image: 'postgres:13'
+    container_name: 'fields_service_db'
+    environment:
+      - 'POSTGRES_USER=aobubu'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+      - 'POSTGRES_DB=field_service_db'
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aobubu" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  field-service:
+    build: ./
+    container_name: fields-back
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdbdata:
