@@ -1,3 +1,0 @@
-databaseChangeLog:
-  -   include:
-        file: db/changelog/01_table_users.xml
