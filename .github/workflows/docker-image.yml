@@ -7,3 +7,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build fields-service
         run: docker-compose up -d
+      - name: Logs
+        run: docker-compose logs
