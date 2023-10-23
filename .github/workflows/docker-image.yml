@@ -9,5 +9,3 @@ jobs:
         run: docker-compose up -d
       - name: Logs
         run: docker-compose logs
-      - name: Service logs
-        run: docker logs fields-back
