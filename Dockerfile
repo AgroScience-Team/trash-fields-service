@@ -1,7 +1,12 @@
+FROM openjdk:17 as builder
+ADD . /src
+WORKDIR /src
+RUN ./mvnw package -DskipTests
+
 FROM openjdk:17
-
-WORKDIR /app
-
-COPY target/field_service-0.0.1-SNAPSHOT.jar field_service-0.0.1-SNAPSHOT.jar
-
-ENTRYPOINT ["java", "-jar", "field_service-0.0.1-SNAPSHOT.jar"]
+WORKDIR .
+ENV JAVA_HOME=/opt/java-minimal
+ENV PATH="$PATH:$JAVA_HOME/bin"
+COPY --from=builder /src/target/field_service-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8000
+ENTRYPOINT ["java", "-jar", "/app.jar"]

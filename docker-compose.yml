@@ -1,13 +1,27 @@
 version: '3'
 
 services:
-  postgres:
-    image: 'postgres:13'
-    container_name: 'fields_service_db'
+  client-backend:
+    container_name: fields-back
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      service-db:
+        condition: service_healthy
     environment:
-      - 'POSTGRES_USER=aobubu'
-      - 'POSTGRES_HOST_AUTH_METHOD=trust'
-      - 'POSTGRES_DB=field_service_db'
+      - SERVER_PORT= 8000
+      - SPRING.DATASOURCE.URL=jdbc:postgresql://service-db/fields
+
+  service-db:
+    image: bitnami/postgresql:14
+    container_name: fields-db
+    env_file:
+      - ./src/main/resources/application.properties
+    ports:
+      - "5433:5432"
     volumes:
       - pgdbdata:/var/lib/postgresql/data/
     restart: unless-stopped
@@ -16,15 +30,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-
-  field-service:
-    build: ./
-    container_name: fields-back
-    ports:
-      - 8080:8080
-    depends_on:
-      postgres:
-        condition: service_healthy
 
 volumes:
   pgdbdata:
