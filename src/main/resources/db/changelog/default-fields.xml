@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+
+    <!-- Миграция для создания нескольких стандартных Fields -->
+    <changeSet id="Create standard fields" author="aobubu">
+        <sql>
+            INSERT INTO fields (name, square_area, geom, description, color, activity_start, activity_end, organization_id)
+            VALUES ('FirstField', '15.0', 'MULTIPOLYGON(((100.0 100.0, 0.0 0.0)))', 'First added field', 'aaff99', '2021-12-12 09:10:15', '2021-12-12 09:10:15', 1),
+                   ('SecondField', '20.0', 'MULTIPOLYGON(((100.0 100.0, 0.0 0.0)))', 'Second added field', 'aaff99', '2022-01-01 09:00:35', '2022-01-01 09:00:35', 1),
+                   ('ThirdField', '30.0', 'MULTIPOLYGON(((100.0 100.0, 0.0 0.0)))', 'Third added field', 'aaff99', '2022-01-15 09:30:00', '2022-01-15 09:30:00', 2);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

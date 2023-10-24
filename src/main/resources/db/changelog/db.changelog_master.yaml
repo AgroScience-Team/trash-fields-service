@@ -1,3 +1,9 @@
 databaseChangeLog:
+  - include:
+      file: db/changelog/test_table-organizations.xml
+  - include:
+      file: db/changelog/default-organizations.xml
   - include: 
       file: db/changelog/table-fields.xml
+  - include:
+      file: db/changelog/default-fields.xml
