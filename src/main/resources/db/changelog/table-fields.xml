@@ -30,12 +30,10 @@
             <column name="activity_end" type="timestamp">
                 <constraints nullable="true"/>
             </column>
+            <column name="organization_id" type="integer">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
-        <addColumn tableName="fields">
-            <column name="organization_id" type="integer"/>
-        </addColumn>
-        <addForeignKeyConstraint baseTableName="fields" baseColumnNames="organization_id" constraintName="fields_organizations_fk" referencedTableName="organizations"
-                                 referencedColumnNames="id"/>
     </changeSet>
 
 </databaseChangeLog>
