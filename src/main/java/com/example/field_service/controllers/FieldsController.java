@@ -1,5 +1,6 @@
 package com.example.field_service.controllers;
 
+import com.example.field_service.dto.FieldPreviewResponse;
 import com.example.field_service.dto.FieldRequest;
 import com.example.field_service.dto.FieldResponse;
 import com.example.field_service.dto.OrganizationFieldsResponse;
@@ -35,13 +36,35 @@ public class FieldsController {
 
     @GetMapping("/{fieldId}")
     public FieldResponse getField(@PathVariable Long fieldId) {
-        return  fieldService.getField(fieldId);
+        return fieldService.getField(fieldId);
     }
 
     @DeleteMapping("/{fieldId}")
     public ResponseEntity<Void> deleteField(@PathVariable Long fieldId) {
         fieldService.deleteFieldById(fieldId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/preview")
+    public List<FieldPreviewResponse> getFieldsPreview() {
+        // Нужна логика для связывания с сервисом посевов
+        return fieldService.getFieldsPreview()
+                .stream()
+                .map(fieldMapper::fieldToFieldPreviewResponse)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/preview/{fieldId}")
+    public FieldPreviewResponse getFieldPreview(@PathVariable Long fieldId) {
+        // Нужна логика для связывания с сервисом посевов
+        return fieldMapper.fieldToFieldPreviewResponse(
+                    fieldService.getFieldPreview(fieldId)
+            );
+    }
+
+    @PutMapping("/{fieldId}")
+    public FieldResponse updateField(@RequestBody FieldRequest fieldRequest, @PathVariable Long fieldId) {
+        return fieldService.updateFieldById(fieldRequest, fieldId);
     }
 }
 
